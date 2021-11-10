@@ -341,9 +341,14 @@ async function onMrzDetected(mrz) {
 
 async function onDocumentDetected(e) {
   results.push(e);
-  ViewUtils.flash();
-  Utils.getElementByClassName("page-count-indicator").innerHTML =
-    results.length + " PAGES";
+
+  documentScanner.dispose();
+  Utils.getElementByClassName("scanbot-camera-controller").style.display =
+  "none";
+  Utils.getElementByClassName(
+    "detection-results-controller"
+  ).style.display = "block";
+  await reloadDetectionResults();
 }
 
 async function onScannerError(e) {

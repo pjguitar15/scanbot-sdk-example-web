@@ -326,8 +326,11 @@ export default class App extends React.Component<any, any> {
   }
 
   async onDocumentDetected(result: any) {
-    ScanbotSdkService.instance.sdk?.utils.flash();
+    if (this._documentScanner) {
+      this._documentScanner.pop();
+    }
     Pages.instance.add(result);
+    RoutingService.instance.route(RoutePath.ImageResults);
   }
 
   async onBarcodesDetected(result: BarcodeResult) {

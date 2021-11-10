@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { NavigationUtils } from "../service/navigation-utils";
 import { DocumentRepository } from "../service/document-repository";
 import ViewUtils from "../service/view-utils";
+import { RoutePaths } from "../model/RoutePaths";
 
 @Component({
   selector: "app-document-scanner",
@@ -65,17 +66,13 @@ export class DocumentScannerComponent implements OnInit {
   }
 
   async onDocumentDetected(result: DocumentDetectionResult) {
-    ViewUtils.flash();
     this.documents.add(result);
-    const counter = NavigationUtils.getElementByClassName(
-      "scanner-page-counter"
-    );
-    counter.innerText = this.documents.count() + " PAGES";
-    this.sdk.delayAutoCapture();
+    this.onScanningDone();
   }
 
   async onScanningDone() {
     this.sdk.disposeDocumentScanner();
-    await this.router.navigateByUrl("/");
+
+    await this.router.navigateByUrl(RoutePaths.ImageResults);
   }
 }
